@@ -3,6 +3,7 @@ using AccountWebApp.Domain;
 using AccountWebApp.Endpoints.Transfers;
 using AccountWebApp.Exceptions;
 using AccountWebApp.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace AccountWebApp.Services.Transfers;
 
@@ -12,13 +13,13 @@ public class TransfersService(AppDbContext appDbContext) : ITransfersService
     {
         foreach(var transfer in transfers)
         {
-            var accountFrom = appDbContext.Accounts.FirstOrDefault(a => a.Id == transfer.FromAccountId);
+            var accountFrom = await appDbContext.Accounts.FirstOrDefaultAsync(a => a.Id == transfer.FromAccountId);
             if (accountFrom == null)
             {
                 throw new NotFoundException(nameof(Account), transfer.FromAccountId);
             }
             
-            var accountTo = appDbContext.Accounts.FirstOrDefault(a => a.Id == transfer.ToAccountId);
+            var accountTo = await appDbContext.Accounts.FirstOrDefaultAsync(a => a.Id == transfer.ToAccountId);
 
             if (accountTo == null)
             {
@@ -35,6 +36,6 @@ public class TransfersService(AppDbContext appDbContext) : ITransfersService
             appDbContext.Transactions.Add(transactionTo);
         }
 
-        appDbContext.SaveChanges();
+        await appDbContext.SaveChangesAsync();
     }
 }

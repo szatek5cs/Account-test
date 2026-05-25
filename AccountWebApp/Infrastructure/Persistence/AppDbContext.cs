@@ -18,8 +18,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
             entity.Property(e => e.Balance).HasPrecision(18, 2);
 
-            entity.Property(p => p.RowVersion)
-                .IsConcurrencyToken();
+            entity.Property<Guid>("RowVersion")
+                .IsConcurrencyToken()
+                .HasValueGenerator<Microsoft.EntityFrameworkCore.ValueGeneration.GuidValueGenerator>();
         });
 
         modelBuilder.Entity<Transaction>(entity =>
@@ -41,5 +42,26 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         });
 
         base.OnModelCreating(modelBuilder);
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+    // 1. Znajdź wszystkie obiekty w pamięci EF Core, które zostały zmodyfikowane lub dodane
+        var modifiedEntries = ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified);
+
+        foreach (var entry in modifiedEntries)
+        {
+            // 2. Sprawdź, czy dana encja posiada ukrytą właściwość (Shadow Property) o nazwie "RowVersion"
+            var rowVersionProperty = entry.Metadata.FindProperty("RowVersion");
+            if (rowVersionProperty != null)
+            {
+                // 3. Wymuś przypisanie nowego, świeżego GUID-a bezpośrednio przed wysłaniem SQL-a
+                entry.Property("RowVersion").CurrentValue = Guid.NewGuid();
+            }
+        }
+
+        // 4. Uruchom standardowy zapis do bazy danych
+        return base.SaveChangesAsync(cancellationToken);
     }
 }

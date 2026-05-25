@@ -18,7 +18,7 @@ namespace AccountWebApp.Infrastructure.Persistence.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Balance = table.Column<decimal>(type: "TEXT", precision: 18, scale: 2, nullable: false),
-                    RowVersion = table.Column<int>(type: "INTEGER", nullable: false)
+                    RowVersion = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

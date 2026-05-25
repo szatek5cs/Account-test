@@ -11,21 +11,19 @@ public class TransfersService(AppDbContext appDbContext) : ITransfersService
 {
     public async Task ProcessBatchTransfersAsync(List<TransferRequest> transfers)
     {
+        var accountsIds = transfers.SelectMany(t => new[] { t.FromAccountId, t.ToAccountId }).Distinct().ToList();
+        var accountsDict = await appDbContext.Accounts.Where(a => accountsIds.Contains(a.Id)).ToDictionaryAsync(a => a.Id, a => a);
+
+        if (accountsDict.Count != accountsIds.Count)
+        {
+            throw new NotFoundException(nameof(Account), accountsIds.Except(accountsDict.Keys).First());
+        }
+
         foreach(var transfer in transfers)
         {
-            var accountFrom = await appDbContext.Accounts.FirstOrDefaultAsync(a => a.Id == transfer.FromAccountId);
-            if (accountFrom == null)
-            {
-                throw new NotFoundException(nameof(Account), transfer.FromAccountId);
-            }
-            
-            var accountTo = await appDbContext.Accounts.FirstOrDefaultAsync(a => a.Id == transfer.ToAccountId);
+            var accountFrom = accountsDict[transfer.FromAccountId]  ;
+            var accountTo = accountsDict[transfer.ToAccountId];
 
-            if (accountTo == null)
-            {
-                throw new NotFoundException(nameof(Account), transfer.ToAccountId);
-            }
-    
             accountFrom.TransferDebit(transfer.Amount);
             accountTo.TransferCredit(transfer.Amount);
 

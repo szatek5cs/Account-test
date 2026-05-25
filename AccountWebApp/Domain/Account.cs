@@ -8,14 +8,12 @@ public class Account
 {
     public int Id { get; private set; }
     public decimal Balance { get; private set; }
-    public int RowVersion { get; set; }
 
     private Account() { } // For EF Core
 
     public Account(decimal initialBalance = 0)
     {
         Balance = initialBalance;
-        RowVersion = 0;
     }
 
     public void Withdraw(decimal amount)
@@ -30,8 +28,6 @@ public class Account
             throw new DomainValidationException("Insufficient funds for withdrawal.", DomainErrors.InsufficientFunds);
         }
 
-        UpdateRowVersion();
-
         Balance -= amount;
     }
 
@@ -43,8 +39,6 @@ public class Account
         }
 
         Balance -= DomainConsts.MonthlyFeeAmount;
-
-        UpdateRowVersion();
 
         return DomainConsts.MonthlyFeeAmount;
     }
@@ -61,8 +55,6 @@ public class Account
             throw new DomainValidationException("Insufficient funds for transfer.", DomainErrors.InsufficientFunds);
         }
 
-        UpdateRowVersion();
-
         Balance -= amount;
     }
 
@@ -73,13 +65,6 @@ public class Account
             throw new DomainValidationException("Amount must be greater than zero.", DomainErrors.InvalidAmount);
         }
 
-        UpdateRowVersion();
-
         Balance += amount;
-    }
-
-    private void UpdateRowVersion()
-    {
-        RowVersion++;
     }
 }

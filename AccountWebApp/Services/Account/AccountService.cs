@@ -20,6 +20,7 @@ public class AccountService(AppDbContext dbContext) : IAccountService
             .Where(t => t.AccountId == accountId 
                 && t.CreatedAtUtc.Year == DateTime.UtcNow.Year
                 && t.CreatedAtUtc.Month == DateTime.UtcNow.Month)
+            .AsNoTracking()
             .ToListAsync();
 
         var amount = account.MonthlyFee(thisMonthTransactions);

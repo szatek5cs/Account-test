@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountWebApp", "AccountWebApp\AccountWebApp.csproj", "{2F16C8FA-357A-4F3E-AF47-CFE382ECFEDE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcountWevAppTests", "AcountWevAppTests\AcountWevAppTests.csproj", "{A2EA8048-E133-434F-BB9D-087D7D616D4E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{2F16C8FA-357A-4F3E-AF47-CFE382ECFEDE}.Release|x64.Build.0 = Release|Any CPU
 		{2F16C8FA-357A-4F3E-AF47-CFE382ECFEDE}.Release|x86.ActiveCfg = Release|Any CPU
 		{2F16C8FA-357A-4F3E-AF47-CFE382ECFEDE}.Release|x86.Build.0 = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|x64.Build.0 = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Debug|x86.Build.0 = Debug|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|x64.ActiveCfg = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|x64.Build.0 = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|x86.ActiveCfg = Release|Any CPU
+		{A2EA8048-E133-434F-BB9D-087D7D616D4E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

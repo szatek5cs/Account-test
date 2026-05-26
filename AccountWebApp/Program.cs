@@ -17,6 +17,7 @@ builder.Services.AddScoped<ITransfersService, TransfersService>();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DbConnection")));
 
+
 var app = builder.Build();
 
 app.UseExceptionHandler();
